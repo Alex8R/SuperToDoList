@@ -10,6 +10,7 @@ type TodoListPropsType = {
     changeFilter: (filter: FilterValuesType, todoListId: string) => void
     addTask: (taskTitle: string, todoListId: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
+    removeTodoList: (id: string) => void
 }
 
 function TodoList(props: TodoListPropsType) {
@@ -28,18 +29,20 @@ function TodoList(props: TodoListPropsType) {
         setNewTaskTitle(event.currentTarget.value);
         setError('');
     };
-
     const onInputSubmitHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") addTaskHandler();
     };
-
     const onAllClickHandler = () => props.changeFilter("all", props.id);
     const onActiveClickHandler = () => props.changeFilter("active", props.id);
     const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
+    const onRemoveTodoList = () => props.removeTodoList(props.id);
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3>
+                {props.title}
+                <button onClick={onRemoveTodoList}>X</button>
+            </h3>
             <div>
                 <input
                     className={error ? 'error' : ''}

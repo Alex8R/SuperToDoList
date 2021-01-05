@@ -28,7 +28,7 @@ function App() {
 
     const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
         {id: todoListId1, title: "What to learn", filter: "all"},
-        {id: todoListId2, title: "What to buy", filter: "completed"},
+        {id: todoListId2, title: "What to buy", filter: "all"},
     ]);
     const [tasks, setTasks] = useState<TaskStateType>({
         [todoListId1]: [
@@ -71,6 +71,10 @@ function App() {
         setTasks({...tasks})
     };
 
+    function removeTodoList(id: string) {
+        setTodoLists(todoLists.filter(todoList => todoList.id !==id));
+        delete tasks[id]
+    };
     return (
         <div className="App">
             {
@@ -90,6 +94,7 @@ function App() {
                             changeFilter={changeFilter}
                             addTask={addTask}
                             changeTaskStatus={changeTaskStatus}
+                            removeTodoList={removeTodoList}
                         />
                     )
                 })
