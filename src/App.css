@@ -1,26 +1,7 @@
-.App {
-    padding: 30px;
-    display: flex;
-}
-
-.App > div {
-    margin-right: 50px;
-}
-
-.error {
-    border: red 1px solid;
-    outline: red;
-}
-
-.error-message {
-    color: red;
-}
-
-.active-filter {
-    background-color: aquamarine;
-}
-
 .is-done {
     opacity: 0.5;
     text-decoration: line-through;
+}
+label {
+    cursor: pointer;
 }
