@@ -6,7 +6,7 @@ import AddItemForm from "./components/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
