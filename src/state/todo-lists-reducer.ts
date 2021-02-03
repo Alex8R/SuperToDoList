@@ -1,13 +1,14 @@
-import {FilterValuesType, TodoListType} from "../App";
+import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
 
-type RemoveTodolistActionType = {
+export type RemoveTodolistActionType = {
     type: "REMOVE_TODOLIST"
     id: string
 }
 
-type AddTodolistActionType = {
+export type AddTodolistActionType = {
     type: "ADD_TODOLIST"
+    id: string
     title: string
 }
 
@@ -29,15 +30,14 @@ type ActionType =
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType;
 
-const todolistReducer = (state: Array<TodoListType>, action: ActionType): Array<TodoListType> => {
+const todoListsReducer = (state: Array<TodolistType>, action: ActionType): Array<TodolistType> => {
     switch (action.type) {
         case "REMOVE_TODOLIST": {
             return state.filter(tl => tl.id !== action.id);
         }
         case "ADD_TODOLIST": {
-            const todoListId = v1();
-            const newTodolist: TodoListType = {
-                id: todoListId,
+            const newTodolist: TodolistType = {
+                id: action.id,
                 title: action.title,
                 filter: "all"
             }
@@ -56,14 +56,14 @@ const todolistReducer = (state: Array<TodoListType>, action: ActionType): Array<
             return [...state];
         }
         default:
-            throw new Error("Incorrect action")
+            return state
     }
 };
 
 const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => ({type: "REMOVE_TODOLIST", id: todolistId});
-const addTodolistAC = (newTodolistTitle: string): AddTodolistActionType => ({type: "ADD_TODOLIST", title: newTodolistTitle});
+const addTodolistAC = (newTodolistTitle: string): AddTodolistActionType => ({type: "ADD_TODOLIST", title: newTodolistTitle, id: v1()});
 const changeTodolistTitleAC = (newTodolistTitle: string, todolistID:string): ChangeTodolistTitleActionType => ({type: "CHANGE_TODOLIST_TITLE", id: todolistID, title: newTodolistTitle});
 const changeTodolistFilterAC = (newFilter: FilterValuesType, todolistID:string): ChangeTodolistFilterActionType => ({type: "CHANGE_TODOLIST_FILTER", id: todolistID, filter: newFilter});
 
-export default todolistReducer;
+export default todoListsReducer;
 export {removeTodolistAC, addTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC}

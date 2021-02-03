@@ -6,12 +6,12 @@ import AddItemForm from "./components/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 
-export type TodoListType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
 }
-type TaskStateType = {
+export type TasksStateType = {
     [todoListId: string]: Array<TaskType>
 }
 export type TaskType = {
@@ -28,11 +28,11 @@ function App() {
     const todoListId1 = v1();
     const todoListId2 = v1();
 
-    const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
+    const [todoLists, setTodoLists] = useState<Array<TodolistType>>([
         {id: todoListId1, title: "What to learn", filter: "all"},
         {id: todoListId2, title: "What to buy", filter: "all"},
     ]);
-    const [tasks, setTasks] = useState<TaskStateType>({
+    const [tasks, setTasks] = useState<TasksStateType>({
         [todoListId1]: [
             {id: v1(), title: 'Learn React', isDone: false},
             {id: v1(), title: 'JavaScript', isDone: false},
@@ -86,7 +86,7 @@ function App() {
 
     function addTodoList(todoListTitle: string) {
         const todoListId = v1();
-        const newTodolist: TodoListType = {
+        const newTodolist: TodolistType = {
             id: todoListId,
             title: todoListTitle,
             filter: "all"
