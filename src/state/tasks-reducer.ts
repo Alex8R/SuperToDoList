@@ -73,7 +73,7 @@ const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType
         }
         case "REMOVE_TODOLIST": {
             const stateCopy = {...state}
-            delete(stateCopy[action.id])
+            delete stateCopy[action.id]
             return stateCopy
         }
         default:
