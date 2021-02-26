@@ -40,9 +40,9 @@ export type ActionType =
 const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
     switch (action.type) {
         case "REMOVE_TASK": {
-            const copyState = { ...state }
-            copyState[action.todolistId] = copyState[action.todolistId].filter(t => t.id !== action.taskId)
-            return copyState;
+            const stateCopy = { ...state }
+            stateCopy[action.todolistId] = stateCopy[action.todolistId].filter(t => t.id !== action.taskId)
+            return stateCopy;
         }
         case "ADD_TASK": {
             const newTask: TaskType = { id: action.taskId, title: action.title, isDone: false };
@@ -52,18 +52,18 @@ const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType
             }
         }
         case "CHANGE_TASK_TITLE": {
-            const copyState = { ...state }
-            const task = copyState[action.todolistId].find(task => task.id === action.taskId)
+            const stateCopy = { ...state }
+            const task = stateCopy[action.todolistId].find(task => task.id === action.taskId)
             if (task) task.title = action.newTaskTitle;
-            return copyState
+            return stateCopy
         }
         case "CHANGE_TASK_STATUS": {
-            const copyState = { ...state }
-            const task = copyState[action.todolistId].find(t => t.id === action.taskId);
+            const stateCopy = { ...state }
+            const task = stateCopy[action.todolistId].find(t => t.id === action.taskId);
             if (task) {
                 task.isDone = action.isDone;
             }
-            return copyState;
+            return stateCopy;
         }
         case "ADD_TODOLIST": {
             return {
