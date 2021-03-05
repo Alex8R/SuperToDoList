@@ -27,8 +27,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "storybook": "start-storybook -p 9009 -s public --no-manager-cache",
+    "build-storybook": "build-storybook -s public",
+    "jest:integration": "jest -c integration/jest.config.js",
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration",
+    "test:updateSnapshot": "jest -c integration/jest.config.js --updateSnapshot"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,8 +52,15 @@
     "@storybook/addon-actions": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.1.21",
+    "@storybook/addon-storysource": "^6.1.21",
+    "@storybook/addons": "^6.1.21",
     "@storybook/node-logger": "^6.1.21",
     "@storybook/preset-create-react-app": "^3.1.6",
-    "@storybook/react": "^6.1.21"
+    "@storybook/react": "^6.1.21",
+    "@storybook/theming": "^6.1.21",
+    "jest-image-snapshot": "^4.4.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^8.0.0",
+    "start-server-and-test": "^1.12.0"
   }
 }
