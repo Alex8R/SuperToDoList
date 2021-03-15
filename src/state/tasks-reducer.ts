@@ -1,6 +1,6 @@
-import {TasksStateType, TaskType} from "../App";
-import {v1} from "uuid";
-import {AddTodolistActionType, RemoveTodolistActionType, todoListId1, todoListId2} from "./todolists-reducer";
+import { v1 } from "uuid";
+import { AddTodolistActionType, RemoveTodolistActionType, todoListId1, todoListId2 } from "./todolists-reducer";
+import { TaskPriorities, TaskStatuses, TaskType } from "../api/api";
 
 export type RemoveTaskActionType = {
     type: "REMOVE_TASK"
@@ -26,7 +26,7 @@ export type ChangeTaskStatusActionType = {
     type: "CHANGE_TASK_STATUS"
     taskId: string
     todolistId: string
-    isDone: boolean
+    status: TaskStatuses
 }
 
 export type ActionType =
@@ -37,18 +37,23 @@ export type ActionType =
     | AddTodolistActionType
     | RemoveTodolistActionType;
 
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
 const initialState: TasksStateType = {
     [todoListId1]: [
-        {id: v1(), title: 'Learn React', isDone: false},
-        {id: v1(), title: 'JavaScript', isDone: false},
-        {id: v1(), title: 'Html', isDone: true},
-        {id: v1(), title: 'CSS', isDone: true}
-    ],
-    [todoListId2]: [
-        {id: v1(), title: "Fish", isDone: false},
-        {id: v1(), title: "Tomato", isDone: false},
-        {id: v1(), title: "Apple MacBook Pro M1", isDone: false},
-        {id: v1(), title: "British Petroleum", isDone: false}
+        {
+            id: v1(),
+            todoListId: todoListId1,
+            title: 'Learn React',
+            description: "",
+            status: TaskStatuses.New,
+            priority: TaskPriorities.Low,
+            order: 0,
+            addedDate: "",
+            startDate: "",
+            deadline: ""
+        }
     ]
 }
 const tasksReducer = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
@@ -59,17 +64,28 @@ const tasksReducer = (state: TasksStateType = initialState, action: ActionType):
             return stateCopy;
         }
         case "ADD_TASK": {
-            const newTask: TaskType = { id: action.taskId, title: action.title, isDone: false };
+            const newTask: TaskType = {
+                id: action.taskId,
+                todoListId: action.todolistId,
+                title: action.title,
+                description: "",
+                status: TaskStatuses.New,
+                priority: TaskPriorities.Low,
+                order: 0,
+                addedDate: "",
+                startDate: "",
+                deadline: ""
+            };
             return {
                 ...state,
-                [action.todolistId]: [newTask, ...state[action.todolistId]]
+                [action.todolistId]: [ newTask, ...state[action.todolistId] ]
             }
         }
         case "CHANGE_TASK_TITLE": {
             const stateCopy = { ...state }
             stateCopy[action.todolistId] = stateCopy[action.todolistId]
                 .map(t => t.id === action.taskId
-                    ? {...t, title: action.newTaskTitle}
+                    ? { ...t, title: action.newTaskTitle }
                     : t)
             return stateCopy
         }
@@ -77,7 +93,7 @@ const tasksReducer = (state: TasksStateType = initialState, action: ActionType):
             const stateCopy = { ...state }
             stateCopy[action.todolistId] = stateCopy[action.todolistId]
                 .map(t => t.id === action.taskId
-                    ? {...t, isDone: action.isDone}
+                    ? { ...t, status: action.status }
                     : t);
             return stateCopy;
         }
@@ -88,7 +104,7 @@ const tasksReducer = (state: TasksStateType = initialState, action: ActionType):
             }
         }
         case "REMOVE_TODOLIST": {
-            const stateCopy = {...state}
+            const stateCopy = { ...state }
             delete stateCopy[action.id]
             return stateCopy
         }
@@ -97,10 +113,10 @@ const tasksReducer = (state: TasksStateType = initialState, action: ActionType):
     }
 };
 
-const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => ({type: "REMOVE_TASK", todolistId, taskId});
-const addTaskAC = (title: string, todolistId: string): AddTaskActionType => ({type: "ADD_TASK", taskId: v1(), todolistId, title});
-const changeTaskTitleAC = (taskId: string, todolistId:string, newTaskTitle: string): ChangeTaskTitleActionType => ({type: "CHANGE_TASK_TITLE", todolistId, taskId, newTaskTitle});
-const changeTaskStatusAC = (taskId: string, todolistId: string, isDone: boolean): ChangeTaskStatusActionType => ({type: "CHANGE_TASK_STATUS", taskId, todolistId, isDone});
+const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => ({ type: "REMOVE_TASK", todolistId, taskId });
+const addTaskAC = (title: string, todolistId: string): AddTaskActionType => ({ type: "ADD_TASK", taskId: v1(), todolistId, title });
+const changeTaskTitleAC = (taskId: string, todolistId: string, newTaskTitle: string): ChangeTaskTitleActionType => ({ type: "CHANGE_TASK_TITLE", todolistId, taskId, newTaskTitle });
+const changeTaskStatusAC = (taskId: string, todolistId: string, status: TaskStatuses): ChangeTaskStatusActionType => ({ type: "CHANGE_TASK_STATUS", taskId, todolistId, status });
 
 export default tasksReducer;
-export {removeTaskAC, addTaskAC, changeTaskTitleAC, changeTaskStatusAC}
+export { removeTaskAC, addTaskAC, changeTaskTitleAC, changeTaskStatusAC }

@@ -1,9 +1,8 @@
-import {TasksStateType, TodolistType} from "../App";
-import tasksReducer, {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./tasks-reducer";
-import todolistsReducer, {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
+import tasksReducer, { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksStateType } from "./tasks-reducer";
+import todolistsReducer, { addTodolistAC, removeTodolistAC, TodolistDomainType } from "./todolists-reducer";
 
 let startState: TasksStateType;
-
+// TODO: Make a test refactor
 beforeEach(()=> {
     startState = {
         "todolistId1": [
@@ -42,14 +41,14 @@ test('Correct task should be added to correct array', () => {
     expect(endState["todolistId2"].length).toBe(4);
     expect(endState["todolistId2"][0].id).toBeDefined();
     expect(endState["todolistId2"][0].title).toBe("juice");
-    expect(endState["todolistId2"][0].isDone).toBeFalsy();
+    expect(endState["todolistId2"][0].status).toBeFalsy();
 })
 
 test('status of specified task should be changed', () => {
     const endState = tasksReducer(startState, changeTaskStatusAC("2", "todolistId2", false))
 
-    expect(endState["todolistId2"][1].isDone).toBeFalsy();
-    expect(startState["todolistId1"][1].isDone).toBeTruthy();
+    expect(endState["todolistId2"][1].status).toBeFalsy();
+    expect(startState["todolistId1"][1].status).toBeTruthy();
 });
 
 test('New array should be added when new todolist is added', () => {
@@ -67,7 +66,7 @@ test('New array should be added when new todolist is added', () => {
 
 test('Ids should be equals', () => {
     const startTasksState: TasksStateType = {};
-    const startTodolistsState: Array<TodolistType> = [];
+    const startTodolistsState: Array<TodolistDomainType> = [];
 
     const action = addTodolistAC("new todolist");
 
