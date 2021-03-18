@@ -48,6 +48,14 @@ type GetTaskType = {
     totalCount: number
     items: Array<TaskType>
 }
+type TaskModelType = {
+    title: string
+    description: string
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+}
 type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
@@ -76,6 +84,9 @@ const todolistAPI = {
     },
     deleteTask(todolistId: string, taskId: string) {
         return API.delete<ResponseType>(`/todo-lists/${ todolistId }/tasks/${ taskId }`)
+    },
+    updateTask(todolistId: string, taskId: string, model: TaskModelType) {
+        return API.put<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 
 }

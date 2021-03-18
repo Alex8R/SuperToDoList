@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import './App.css';
 import TodoList from "./components/TodoList";
 import AddItemForm from "./components/AddItemForm";
 import { AppBar, Button, Container, Grid, IconButton, Toolbar, Typography } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC, FilterValuesType, TodolistDomainType } from "./state/todolists-reducer";
+import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC, FilterValuesType, TodolistDomainType, fetchTodolistsTC } from "./state/todolists-reducer";
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksStateType } from "./state/tasks-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "./state/store";
@@ -30,6 +30,10 @@ function App() {
         dispatch(addTodolistAC(todoListTitle)), [ dispatch ]);
     const changeTodoListTitle = useCallback((title: string, todolistId: string) =>
         dispatch(changeTodolistTitleAC(title, todolistId)), [ dispatch ]);
+
+    useEffect(()=> {
+        dispatch(fetchTodolistsTC())
+    }, [dispatch])
 
     return (
         <div className="App">

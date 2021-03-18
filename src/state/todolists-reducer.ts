@@ -1,5 +1,6 @@
 import { v1 } from "uuid";
-import { TodoListType } from "../api/api";
+import todolistAPI, { TodoListType } from "../api/api";
+import { Dispatch } from "redux";
 
 export type RemoveTodolistActionType = {
     type: "REMOVE_TODOLIST"
@@ -29,6 +30,7 @@ type ActionType =
     | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
+    | SetTodolistsAT
 
 export type FilterValuesType =
     "all"
@@ -39,6 +41,10 @@ export type TodolistDomainType =
     TodoListType
     & {
     filter: FilterValuesType
+}
+export type SetTodolistsAT = {
+    type: "SET_TODOLISTS"
+    todolists: Array<TodoListType>
 }
 export const todoListId1 = v1();
 export const todoListId2 = v1();
@@ -66,6 +72,9 @@ const todolistsReducer = (state: Array<TodolistDomainType> = initialState, actio
         case "CHANGE_TODOLIST_FILTER": {
             return state.map(tl => tl.id === action.id ? { ...tl, filter: action.filter } : tl);
         }
+        case "SET_TODOLISTS": {
+            return action.todolists.map(tl => ({...tl, filter: "all"}))
+        }
         default:
             return state
     }
@@ -75,6 +84,21 @@ const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => ({ ty
 const addTodolistAC = (newTodolistTitle: string): AddTodolistActionType => ({ type: "ADD_TODOLIST", title: newTodolistTitle, id: v1() });
 const changeTodolistTitleAC = (newTodolistTitle: string, todolistID: string): ChangeTodolistTitleActionType => ({ type: "CHANGE_TODOLIST_TITLE", id: todolistID, title: newTodolistTitle });
 const changeTodolistFilterAC = (newFilter: FilterValuesType, todolistID: string): ChangeTodolistFilterActionType => ({ type: "CHANGE_TODOLIST_FILTER", id: todolistID, filter: newFilter });
+const setTodolistsAC = (todolists: Array<TodoListType>): SetTodolistsAT => ({ type: "SET_TODOLISTS", todolists });
 
+const fetchTodolistsTC = () => {
+    return (dispatch: Dispatch) => {
+        todolistAPI
+            .getTodoLists()
+            .then(r => dispatch(setTodolistsAC(r.data)))
+    }
+}
 export default todolistsReducer;
-export { removeTodolistAC, addTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC }
+export {
+    removeTodolistAC,
+    addTodolistAC,
+    changeTodolistTitleAC,
+    changeTodolistFilterAC,
+    setTodolistsAC,
+    fetchTodolistsTC
+}
