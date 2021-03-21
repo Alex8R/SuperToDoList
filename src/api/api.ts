@@ -8,7 +8,7 @@ const config = {
 }
 
 const API = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.1",
+    baseURL: process.env.REACT_APP_BASE_URL,
     ...config
 })
 
@@ -68,7 +68,7 @@ const todolistAPI = {
         return API.get<Array<TodoListType>>("/todo-lists")
     },
     createTodoList(title: string) {
-        return API.post<ResponseType>("/todo-lists", { title })
+        return API.post<ResponseType<{item: TodoListType}>>("/todo-lists", { title })
     },
     deleteTodoList(id: string) {
         return API.delete<ResponseType>(`/todo-lists/${ id }`)
@@ -80,9 +80,9 @@ const todolistAPI = {
         return API.get<GetTaskType>(`/todo-lists/${ todolistId }/tasks`)
     },
     addTask(todolistId: string, taskTitle: string) {
-        return API.post(`/todo-lists/${ todolistId }/tasks`, { title: taskTitle })
+        return API.post<ResponseType<{item: TaskType}>>(`/todo-lists/${ todolistId }/tasks`, { title: taskTitle })
     },
-    deleteTask(todolistId: string, taskId: string) {
+    deleteTask(taskId: string, todolistId: string) {
         return API.delete<ResponseType>(`/todo-lists/${ todolistId }/tasks/${ taskId }`)
     },
     updateTask(todolistId: string, taskId: string, model: TaskModelType) {
