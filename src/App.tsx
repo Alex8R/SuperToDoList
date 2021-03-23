@@ -4,7 +4,7 @@ import TodoList from "./components/TodoList";
 import AddItemForm from "./components/AddItemForm";
 import { AppBar, Button, Container, Grid, IconButton, Toolbar, Typography } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import { addTodoListTC, changeTodolistFilterAC, changeTodolistTitleAC, fetchTodolistsTC, FilterValuesType, removeTodoListTC, TodolistDomainType } from "./state/todolists-reducer";
+import { addTodoListTC, changeTodolistFilterAC, changeTodolistTitleTC, fetchTodolistsTC, FilterValuesType, removeTodoListTC, TodolistDomainType } from "./state/todolists-reducer";
 import { addTaskTC, changeTaskStatusAC, changeTaskTitleAC, removeTaskTC, TasksStateType } from "./state/tasks-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "./state/store";
@@ -30,7 +30,7 @@ function App() {
     const addTodoList = useCallback((todoListTitle: string) =>
         dispatch(addTodoListTC(todoListTitle)), [ dispatch ]);
     const changeTodoListTitle = useCallback((title: string, todolistId: string) =>
-        dispatch(changeTodolistTitleAC(title, todolistId)), [ dispatch ]);
+        dispatch(changeTodolistTitleTC(todolistId, title)), [ dispatch ]);
 
     useEffect(()=> {
         dispatch(fetchTodolistsTC())

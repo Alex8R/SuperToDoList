@@ -100,6 +100,13 @@ const addTodoListTC = (title: string) => {
             .then(({ data: { data: { item } } }) => dispatch(addTodolistAC(item)))
     }
 }
+const changeTodolistTitleTC = (id: string, title: string) => {
+    return (dispatch: Dispatch) => {
+        todolistAPI
+            .updateTodoList(id, title)
+            .then(r => dispatch(changeTodolistTitleAC(title, id)))
+    }
+}
 
 export default todolistsReducer;
 export {
@@ -110,5 +117,6 @@ export {
     setTodolistsAC,
     fetchTodolistsTC,
     removeTodoListTC,
-    addTodoListTC
+    addTodoListTC,
+    changeTodolistTitleTC
 }

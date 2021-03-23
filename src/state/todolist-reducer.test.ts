@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import todolistsReducer, { removeTodolistAC, addTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC, FilterValuesType, TodolistDomainType, setTodolistsAC } from "./todolists-reducer";
+import { TodoListType } from "../api/api";
 
 let todoListId1: string;
 let todoListId2: string;
@@ -10,7 +11,7 @@ let startState: Array<TodolistDomainType>;
 beforeEach(()=> {
     todoListId1 = v1();
     todoListId2 = v1();
-
+    newTodolistTitle = "New TODOList";
     startState = [
         {id: todoListId1, title: "What to learn", filter: "all", order: 0, addedDate: ""},
         {id: todoListId2, title: "What to buy", filter: "all", order: 0, addedDate: ""},
@@ -24,7 +25,8 @@ test("Correct todolist should be removed", () => {
 })
 
 test("Correct todolist should be added", () => {
-    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle));
+    const newTodoList: TodoListType = {id: v1(), addedDate:'', order: 0, title: newTodolistTitle}
+    const endState = todolistsReducer(startState, addTodolistAC(newTodoList));
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);
@@ -32,7 +34,6 @@ test("Correct todolist should be added", () => {
 })
 
 test("Todolist should change his title", () => {
-    newTodolistTitle = "New TODOList";
     const action = changeTodolistTitleAC(newTodolistTitle, todoListId2)
     const endState = todolistsReducer(startState, action);
 
