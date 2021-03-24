@@ -48,7 +48,7 @@ type GetTaskType = {
     totalCount: number
     items: Array<TaskType>
 }
-type TaskModelType = {
+export type TaskModelType = {
     title: string
     description: string
     status: number
@@ -86,7 +86,7 @@ const todolistAPI = {
         return API.delete<ResponseType>(`/todo-lists/${ todolistId }/tasks/${ taskId }`)
     },
     updateTask(todolistId: string, taskId: string, model: TaskModelType) {
-        return API.put<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return API.put<ResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 
 }

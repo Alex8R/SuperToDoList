@@ -75,8 +75,10 @@ const todolistsReducer = (state: Array<TodolistDomainType> = initialState, actio
 
 const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => ({ type: "REMOVE_TODOLIST", id: todolistId });
 const addTodolistAC = (todoList: TodoListType): AddTodolistActionType => ({ type: "ADD_TODOLIST", todoList});
-const changeTodolistTitleAC = (newTodolistTitle: string, todolistID: string): ChangeTodolistTitleActionType => ({ type: "CHANGE_TODOLIST_TITLE", id: todolistID, title: newTodolistTitle });
-const changeTodolistFilterAC = (newFilter: FilterValuesType, todolistID: string): ChangeTodolistFilterActionType => ({ type: "CHANGE_TODOLIST_FILTER", id: todolistID, filter: newFilter });
+const changeTodolistTitleAC = (newTodolistTitle: string, todolistID: string): ChangeTodolistTitleActionType =>
+    ({ type: "CHANGE_TODOLIST_TITLE", id: todolistID, title: newTodolistTitle });
+const changeTodolistFilterAC = (newFilter: FilterValuesType, todolistID: string): ChangeTodolistFilterActionType =>
+    ({ type: "CHANGE_TODOLIST_FILTER", id: todolistID, filter: newFilter });
 const setTodolistsAC = (todolists: Array<TodoListType>): SetTodolistsAT => ({ type: "SET_TODOLISTS", todolists });
 
 const fetchTodolistsTC = () => {
