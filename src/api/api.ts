@@ -50,11 +50,11 @@ type GetTaskType = {
 }
 export type TaskModelType = {
     title: string
-    description: string
+    description: string | null
     status: number
     priority: number
-    startDate: string
-    deadline: string
+    startDate: string | null
+    deadline: string | null
 }
 type ResponseType<D = {}> = {
     resultCode: number

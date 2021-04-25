@@ -1,20 +1,10 @@
 import { v1 } from "uuid";
-import todolistAPI, { TodoListType } from "../api/api";
+import todolistAPI, { TodoListType } from "../../api/api";
 import { Dispatch } from "redux";
+import * as actions from "./actions";
 
-
-type InferActionType<T> = T extends { [key: string]: (...arg: any[]) => infer U } ? U : never
-export type TodoListActionsType = InferActionType<typeof actions>
-
-const actions = {
-    removeTodolistAC: (todolistId: string) => ({ type: "REMOVE_TODOLIST", id: todolistId } as const),
-    addTodolistAC: (todoList: TodoListType) => ({ type: "ADD_TODOLIST", todoList} as const),
-    changeTodolistTitleAC: (newTodolistTitle: string, todolistID: string) =>
-        ({ type: "CHANGE_TODOLIST_TITLE", id: todolistID, title: newTodolistTitle } as const),
-    changeTodolistFilterAC: (newFilter: FilterValuesType, todolistID: string) =>
-        ({ type: "CHANGE_TODOLIST_FILTER", id: todolistID, filter: newFilter } as const),
-    setTodolistsAC: (todolists: Array<TodoListType>) => ({ type: "SET_TODOLISTS", todolists } as const)
-}
+type InferActionType<T> = T extends { [key: string]: infer U } ? U : never
+export type TodoListActionsType = ReturnType<InferActionType<typeof actions>>
 
 export type FilterValuesType =
     "all"
@@ -54,8 +44,6 @@ const todolistsReducer = (state: Array<TodolistDomainType> = initialState, actio
             return state
     }
 };
-
-
 
 const fetchTodolistsTC = () => {
     return (dispatch: Dispatch) => {

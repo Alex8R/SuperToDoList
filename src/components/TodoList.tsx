@@ -4,10 +4,10 @@ import EditableSpan from "./EditableSpan";
 import { Button, IconButton } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { Task } from "./Task";
-import { FilterValuesType } from "../state/todolists-reducer";
+import { FilterValuesType } from "../state/todolist/todolists-reducer";
 import { TaskStatuses, TaskType } from "../api/api";
 import { useDispatch } from "react-redux";
-import { fetchTasksTC } from "../state/tasks-reducer";
+import { fetchTasksTC } from "../state/tasks/tasks-reducer";
 
 type TodoListPropsType = {
     id: string

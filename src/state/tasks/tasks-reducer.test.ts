@@ -1,6 +1,6 @@
 import tasksReducer, { addTaskAC, changeTaskStatusAC, removeTaskAC, setTasksAC, TasksStateType } from "./tasks-reducer";
-import todolistsReducer, { actions, TodolistDomainType } from "./todolists-reducer";
-import { TaskPriorities, TaskStatuses, TodoListType } from "../api/api";
+import todolistsReducer, { actions, TodolistDomainType } from "../todolist/todolists-reducer";
+import { TaskPriorities, TaskStatuses, TodoListType } from "../../api/api";
 import { v1 } from "uuid";
 
 let startState: TasksStateType;
